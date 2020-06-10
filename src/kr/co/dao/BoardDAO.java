@@ -35,4 +35,8 @@ public class BoardDAO {
 			}
 		}
 		
+		private void test() {
+			
+		}
+		
 }
