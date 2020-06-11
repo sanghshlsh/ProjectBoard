@@ -35,8 +35,5 @@ public class BoardDAO {
 			}
 		}
 		
-		public void test2(){
-			System.out.println("test2");
-		}
-		
+	
 }
