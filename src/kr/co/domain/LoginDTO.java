@@ -28,6 +28,6 @@ public class LoginDTO {
 
 	public void setPw(String pw) {
 		this.pw = pw;
-	}wwww
+	}
 
 }
