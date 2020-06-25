@@ -112,4 +112,11 @@ num number(4) references noticeboard(num),
 attPath varchar2(1000)
 );
 
+<<<<<<< HEAD
 select * from attfile
+=======
+select * from attfile
+...업로드 경로 (예전에 인서트 한 것 사진 안나올 때 수정하는 방식  우아아아아 ) 
+update attfile set attpath = 'http:\\localhost:8089\ProjectBoard\upload\2020-06-23\토슈즈.jpg' where attnum =8
+
+>>>>>>> fetch_head
