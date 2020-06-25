@@ -112,3 +112,6 @@ num number(4) references noticeboard(num),
 attPath varchar2(1000)
 );
 
+select * from attfile
+...업로드 경로 update attfile set attpath = 'http:\\localhost:8089\ProjectBoard\upload\2020-06-23\토슈즈.jpg' where attnum =8
+
