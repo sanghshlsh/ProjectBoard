@@ -33,7 +33,7 @@ footer {
 
     if (session.getAttribute("login") == null) {
 
-        out.println("<script>alert('로그인이 필요한 화면입니다. 메인 페이지로 이동합니다.'); location.href='/ProjectBoard/loginui.do'; </script>");
+        out.println("<script>alert('로그인이 필요한 화면입니다. 로그인 페이지로 이동합니다.'); location.href='/ProjectBoard/loginui.do'; </script>");
 
         return;  // 중요함!!
 

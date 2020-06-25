@@ -112,3 +112,4 @@ num number(4) references noticeboard(num),
 attPath varchar2(1000)
 );
 
+delete from member
