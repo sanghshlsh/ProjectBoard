@@ -23,12 +23,13 @@
 		out.println(
 				"<script>alert('관리자만 접근 가능한 페이지 입니다. 메인 페이지로 이동합니다.'); location.href='/ProjectBoard/mainpage.do'; </script>");
 
-		return; // 중요함!!
+		return; 
+		// 중요함!!
 	
 	} else {
 		
 		LoginDTO dto = (LoginDTO) session.getAttribute("login");
-		if (dto.getId()=="admin") {
+		if (!dto.getId().equals("admin")) {
 			out.println(
 					"<script>alert('관리자만 접근 가능한 페이지 입니다. 메인 페이지로 이동합니다.'); location.href='/ProjectBoard/mainpage.do'; </script>");
 
