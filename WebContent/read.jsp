@@ -171,7 +171,7 @@
 								<a href="updateui.do?num=${dto.num}">수정</a>
                              </div>
                              <div class="btn btn-danger">
-									<a href="delete.do?num=${dto.num}">삭제</a>
+									<a href="deleteui.do?num=${dto.num}&id=${dto.id}">삭제</a>
 									</div>
 									<div class="btn btn-warning">
 									<a href="list.do">목록</a>

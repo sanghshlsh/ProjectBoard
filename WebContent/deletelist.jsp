@@ -28,28 +28,12 @@ footer {
 }
 </style>
 <head>
-
-<%
-	session = request.getSession(false);
-
-	if (session.getAttribute("login") == null) {
-
-		out.println(
-				"<script>alert('관리자만 접근 가능한 페이지 입니다. 메인 페이지로 이동합니다.'); location.href='/ProjectBoard/mainpage.do'; </script>");
-
-		return; // 중요함!!
-
-	} else {
-
-		LoginDTO dto = (LoginDTO) session.getAttribute("login");
-		if (dto.getId() == "admin") {
-			out.println(
-					"<script>alert('관리자만 접근 가능한 페이지 입니다. 메인 페이지로 이동합니다.'); location.href='/ProjectBoard/mainpage.do'; </script>");
-
-			return; // 중요함!!
-		}
-	}
-%>
+<c:if test="${empty login }">
+<script>alert('관리자만 접근 가능한 페이지 입니다. 메인 페이지로 이동합니다.'); location.href='/ProjectBoard/mainpage.do'; </script>
+</c:if>
+<c:if test="${login.id ne 'admin' }">
+<script>alert('관리자만 접근 가능한 페이지 입니다. 메인 페이지로 이동합니다.'); location.href='/ProjectBoard/mainpage.do'; </script>
+</c:if>
 </head>
 <body>
 	<nav class="navbar navbar-default">

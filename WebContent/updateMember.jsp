@@ -27,19 +27,10 @@ footer {
 	width: 400px;
 }
 </style>
-<%
+<c:if test="${empty login }">
+<script>alert('로그인이 필요한 화면입니다. 로그인 페이지로 이동합니다.'); location.href='/ProjectBoard/loginui.do'; </script>
+</c:if>
 
-    session = request.getSession(false);
-
-    if (session.getAttribute("login") == null) {
-
-        out.println("<script>alert('로그인이 필요한 화면입니다. 로그인 페이지로 이동합니다.'); location.href='/ProjectBoard/loginui.do'; </script>");
-
-        return;  // 중요함!!
-
-    }
-
-%>
 </head>
 <body>
 	<nav class="navbar navbar-default">

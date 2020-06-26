@@ -27,6 +27,9 @@
  -->
 
 <title>당근마켓</title>
+<c:if test="${empty login }">
+<script>alert('로그인이 필요한 페이지 입니다. 글 목록으로 이동합니다.'); location.href='/ProjectBoard/list.do'; </script>
+</c:if>
 </head>
 <body> 
 
