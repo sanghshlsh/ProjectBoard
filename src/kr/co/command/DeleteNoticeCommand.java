@@ -24,7 +24,7 @@ public class DeleteNoticeCommand implements Command {
 		}
 		new BoardDAO().deleteNotice(num);
 		
-		return new CommandAction(false, "listNotice.do");
+		return new CommandAction(true, "listNotice.do");
 	}
 
 	

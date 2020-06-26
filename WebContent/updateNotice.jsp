@@ -15,27 +15,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <title>당근마켓</title>
-<%
-	session = request.getSession(false);
+<c:if test="${empty login }">
+<script>alert('관리자 수정이 가능합니다. 게시물로 이동합니다.'); location.href='/ProjectBoard/readNotice.do?num=${dto.num}'; </script>
+</c:if>
+<c:if test="${login.id ne 'admin' }">
+<script>alert('관리만 수정이 가능합니다. 게시물로 이동합니다.'); location.href='/ProjectBoard/readNotice.do?num=${dto.num}'; </script>
+</c:if>
 
-	if (session.getAttribute("login") == null) {
-
-		out.println(
-				"<script>alert('관리자만 접근 가능한 페이지 입니다. 메인 페이지로 이동합니다.'); location.href='/ProjectBoard/mainpage.do'; </script>");
-
-		return; // 중요함!!
-	
-	} else {
-		
-		LoginDTO dto = (LoginDTO) session.getAttribute("login");
-		if (dto.getId()=="admin") {
-			out.println(
-					"<script>alert('관리자만 접근 가능한 페이지 입니다. 메인 페이지로 이동합니다.'); location.href='/ProjectBoard/mainpage.do'; </script>");
-
-			return; // 중요함!!
-		}
-	}
-%>
 <script type="text/javascript">
 	$(function() {
 

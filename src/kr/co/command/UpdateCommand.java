@@ -83,7 +83,9 @@ public class UpdateCommand implements Command {
 		}
 		
 		BoardDAO dao =new BoardDAO();
-		dao.update(new BoardDTO(num, id, title, content, 0, null, money, category, location, 0, attList, null,0),delList);
+		BoardDTO dto = new BoardDTO(num, id, title, content, 0, null, money, category, location, 0, attList, null,0);
+		dao.update(dto,delList);
+		request.setAttribute("dto", dto);
 		return new CommandAction(true, "read.do?num="+num);
 	}
 

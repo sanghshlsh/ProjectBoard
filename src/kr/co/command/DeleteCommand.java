@@ -24,7 +24,7 @@ public class DeleteCommand implements Command {
 		}
 		new BoardDAO().delete(num);
 		
-		return new CommandAction(false, "list.do");
+		return new CommandAction(true, "list.do");
 	}
 
 	

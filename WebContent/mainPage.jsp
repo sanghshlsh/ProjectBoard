@@ -150,7 +150,7 @@
 								<img style="width:100%; height: 200px;" src="${dto.attList[0].attPath}" >
 							</c:if>
 							<c:if test="${empty dto.attList }">
-								<img style="width:100%; height: 200px;;"src="images/jumbotronBackground.jpg">
+								<img style="width:100%; height: 200px;"src="images/jumbotronBackground.jpg">
 							</c:if>
 							<div class="caption">
 								<h3><a href="read.do?num=${dto.num }">${dto.title}</a></h3>

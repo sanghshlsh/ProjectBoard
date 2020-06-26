@@ -10,18 +10,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- insert,update link 순서중요  -->
-<link  rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"  >
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css">
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/codingBooster.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-	
+
 
 
 <title>당근마켓</title>
+<c:if test="${empty login }">
+	<script>
+		alert('작성자만 수정이 가능합니다. 게시물로 이동합니다.');
+		location.href = '/ProjectBoard/read.do?num=${dto.num}';
+	</script>
+</c:if>
+<c:if test="${login.id ne dto.id }">
+	<script>
+		alert('작성자만 수정이 가능합니다. 게시물로 이동합니다.');
+		location.href = '/ProjectBoard/read.do?num=${dto.num}';
+	</script>
+</c:if>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -120,7 +136,7 @@
 
 
 
-	<<div class="container contact">
+	<div class="container contact">
 		<div class="row">
 			<div class="col-md-3">
 				<div class="contact-info">
@@ -128,11 +144,11 @@
 					<img
 						src="https://cdn.shopify.com/s/files/1/0089/7895/6347/t/9/assets/img_index_cover_logo.png?v=1399351759041780807"
 						alt="image" />
-					
+
 
 				</div>
 			</div>
-			<form action="update.do" method="post" enctype="multipart/form-data" >
+			<form action="update.do" method="post" enctype="multipart/form-data">
 				<input type="hidden" value="${dto.num }" name="num">
 				<div class="col-md-9">
 					<div class="contact-form">
@@ -150,11 +166,11 @@
 									placeholder="Enter Money" name="Money" value="${dto.money }">
 							</div>
 						</div>
-					
+
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="category">카테고리</label>
 							<div class="col-sm-10">
-								<select name="category" >
+								<select name="category">
 									<c:forEach items="${calist }" var="cadto">
 										<option value="${cadto.val }"
 											<c:if test="${cadto.val eq dto.category }">selected</c:if>>${cadto.option }</option>
@@ -162,10 +178,10 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group" >
-							<label class="control-label col-sm-2" for="location" >지역</label>
+						<div class="form-group">
+							<label class="control-label col-sm-2" for="location">지역</label>
 							<div class="col-sm-10">
-								<select name="location"  >
+								<select name="location">
 									<c:forEach items="${lolist }" var="lodto">
 										<option value="${lodto.val }"
 											<c:if test="${lodto.val eq dto.location }">selected</c:if>>${lodto.option }</option>
@@ -176,22 +192,24 @@
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="comment">Content:</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" rows="5"name="content">${dto.content }</textarea>
+
+								<textarea class="form-control" rows="5" id="comment" name="content">${dto.content }</textarea>
+
 							</div>
 						</div>
 						<br>
-						
+
 						<c:if test="${empty alist[0]}">
-				<input type="file" name="file">
-			</c:if>
-			<c:if test="${not empty alist[0]}">
-				<input type="file" class="file" id="file" name="file"
-					onchange="changeValue(this)" />
-				<button type="button" id="btn">
-					<img src="${alist[0].attPath }" width="50px" height="50px">
-				</button>
-				<input type="hidden"  value="${alist[0].attNum }" name = "orgFile1">
-			</c:if>
+							<input type="file" name="file">
+						</c:if>
+						<c:if test="${not empty alist[0]}">
+							<input type="file" class="file" id="file" name="file"
+								onchange="changeValue(this)" />
+							<button type="button" id="btn">
+								<img src="${alist[0].attPath }" width="50px" height="50px">
+							</button>
+							<input type="hidden" value="${alist[0].attNum }" name="orgFile1">
+						</c:if>
 
 						<c:if test="${empty alist[1]}">
 							<input type="file" name="file2">
@@ -216,13 +234,14 @@
 								<img src="${alist[2].attPath }" width="50px" height="50px">
 							</button>
 							<input type="hidden" value="${alist[2].attNum }" name="orgFile3">
-						</c:if><br>
-						<input type="hidden" name="id" class="btn btn-primary pull-right"
-							value="${login.id }">
+						</c:if>
+						<br> <input type="hidden" name="id"
+							class="btn btn-primary pull-right" value="${login.id }">
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
-								<input type="submit" value="send" class="btn btn-danger"> <input type="hidden"
-									name="id" value="${login.id }" class="btn btn-danger">
+								<input type="submit" value="send" class="btn btn-danger">
+								<input type="hidden" name="id" value="${login.id }"
+									class="btn btn-danger">
 
 								<button onclick="location.href='list.do'" class="btn btn-danger">List</button>
 

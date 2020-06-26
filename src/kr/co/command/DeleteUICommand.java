@@ -22,7 +22,9 @@ public class DeleteUICommand implements Command {
 		if (sNum != null) {
 			num = Integer.valueOf(sNum);
 		}
+		String id = request.getParameter("id");
 		request.setAttribute("num", num);
+		request.setAttribute("id", id);
 		
 		return new CommandAction(false, "deleteUI.jsp");
 	}

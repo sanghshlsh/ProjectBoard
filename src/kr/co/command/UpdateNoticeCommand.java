@@ -76,7 +76,9 @@ public class UpdateNoticeCommand implements Command {
 		}
 		
 		BoardDAO dao =new BoardDAO();
-		dao.updateNotice(new BoardDTO(num, id, title, content, 0, null, 0, null, null, 0, attList, null,0),delList);
+		BoardDTO dto = new BoardDTO(num, id, title, content, 0, null, 0, null, null, 0, attList, null,0);
+		dao.updateNotice(dto,delList);
+		request.setAttribute("dto", dto);
 		return new CommandAction(true, "readNotice.do?num="+num);
 	}
 
