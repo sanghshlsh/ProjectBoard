@@ -183,62 +183,6 @@
 	</div>
 
 
-
-
-			
-			<c:if test="${empty alist[0]}">
-				<input type="file" name="file">
-			</c:if>
-			<c:if test="${not empty alist[0]}">
-				<input type="file" class="file" id="file" name="file"
-					onchange="changeValue(this)" />
-				<button type="button" id="btn">
-					<img src="${alist[0].attPath }" width="50px" height="50px">
-				</button>
-				<input type="hidden"  value="${alist[0].attNum }" name = "orgFile1">
-			</c:if>
-<br>
-
-
-
-		<c:if test="${empty alist[1]}">
-				<input type="file" name="file2">
-			</c:if>
-			<c:if test="${not empty alist[1]}">
-				<input type="file" class="file" id="file2" name="file2"
-					onchange="changeValue(this)" />
-				<button type="button" id="btn2">
-					<img src="${alist[1].attPath }" width="50px" height="50px">
-				</button>
-					<input type="hidden"  value="${alist[1].attNum }" name = "orgFile2">
-			</c:if>
-	<br>	
-		
-			<c:if test="${empty alist[2]}">
-				<input type="file" name="file3">
-			</c:if>
-			<c:if test="${not empty alist[2]}">
-				<input type="file" class="file" id="file3" name="file3"
-					onchange="changeValue(this)" />
-				<button type="button" id="btn3">
-					<img src="${alist[2].attPath }" width="50px" height="50px">
-				</button>
-				<input type="hidden"  value="${alist[2].attNum }" name = "orgFile3">
-			</c:if>
-	
-
-		<br>
-		<textarea rows="10" cols="35" name="content">
-${dto.content }
-</textarea>
-		<br> <input type="submit" value="완료"> <input
-			type="hidden" name="id" value="${login.id }">
-
-	</form>
-	<button onclick="location.href='listNotice.do'">목록으로</button>
-	
-	
-	
 	
 	<footer style="background-color: #000000; color: #ffffff">
 		<div class="container-fluid">
