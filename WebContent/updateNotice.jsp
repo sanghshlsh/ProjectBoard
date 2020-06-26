@@ -146,7 +146,6 @@
 								</button>
 								<input type="hidden"  value="${alist[0].attNum }" name = "orgFile1">
 							</c:if>
-							<br>
 							<c:if test="${empty alist[1]}">
 								<input type="file" name="file2">
 							</c:if>
@@ -170,8 +169,10 @@
 						</td>
 					</tr>
 					<tr>
-						<td>내용</td>
-						<td><textarea style="width: 100%" rows="30" name="content">${dto.content}</textarea></td>
+						<td colspan="5">내용</td>
+					</tr>
+					<tr>
+						<td colspan="5"><textarea style="width: 100%" rows="30" name="content">${dto.content}</textarea></td>
 					</tr>
 				</tbody>
 			</table>
@@ -182,7 +183,7 @@
 		</div>
 	</div>
 
-
+	<br>
 	
 	<footer style="background-color: #000000; color: #ffffff">
 		<div class="container-fluid">

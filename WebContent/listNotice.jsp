@@ -16,9 +16,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <title>당근마켓</title>
 <style type="text/css">
- footer {
- margin-top: 470px;
- }
+
 .listColor {
 	color: #ffffff; /* 흰색 */
 	text-decoration: none;
@@ -29,6 +27,11 @@
    position: absolute;
    bottom: 0;
    height: 350px;
+}
+.footer {
+   width:100%;
+   position:absolute;
+   bottom:0;
 }
 </style>
 </head>
@@ -190,7 +193,7 @@
 
 
 
-	<footer style="background-color: #000000; color: #ffffff">
+	<footer style="background-color: #000000; color: #ffffff" class="footer">
 		<div class="container-fluid">
 			<br>
 			<div class="row">

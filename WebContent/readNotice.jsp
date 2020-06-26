@@ -86,9 +86,6 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="6">내용</td>
-					</tr>
-					<tr>
 						<td>
 							<c:if test="${not empty alist}">
 							<c:forEach items="${alist }" var="adto">
@@ -96,7 +93,7 @@
 							</c:forEach>
 							<hr>
 							</c:if>
-							<p style="text-align: left;">${dto.content}</p>
+							<div style="white-space:pre-wrap; text-align: left; min-height: 350px;">${dto.content}</div>
 						</td>
 					</tr>
 				</tbody>
