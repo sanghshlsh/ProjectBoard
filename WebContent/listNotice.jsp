@@ -23,6 +23,13 @@
 	color: #ffffff; /* 흰색 */
 	text-decoration: none;
 }
+
+.page1 { /* 페이징 고정 */
+   width: 1108px;
+   position: absolute;
+   bottom: 0;
+   height: 350px;
+}
 </style>
 </head>
 
@@ -100,7 +107,7 @@
 					</span>
 				</h1>
 			</div>
-			<div class="panel-body">
+			<div class="panel-body" style="height: 550px;">
 				<table class="table">
 					<thead>
 						<tr>
@@ -116,19 +123,44 @@
 							<tr>	
 								<td>${dto.num}</td>
 								<td>${dto.nickname}</td>
-								<td><a href="readNotice.do?num=${dto.num }"><c:if
-									test="${not empty dto.attList }">
-									<img width="50px" height="50px" src="${dto.attList[0].attPath}">
-								</c:if>${dto.title}</a></td>
+								<td><a href="readNotice.do?num=${dto.num }">${dto.title}</a></td>
 								<td>${dto.writeday}</td>
 								<td>${dto.readcnt}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
+				<nav aria-label="Page navigation" class="text-center page1">
+  					<ul class="pagination">
+  						<li>
+      						<a href="listNotice.do?curPage=${(to.curPage-1)>0?(to.curPage-1):1}" aria-label="Previous">
+        						<span aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span>
+     						 </a>
+    					</li>
+						<c:forEach begin="${to.beginPageNum}" end="${to.stopPageNum}" var="idx">
+							<c:if test="${to.curPage==idx}">
+								<li class="active">
+									<a href="listNotice.do?curPage=${idx}">${idx}</a>
+								</li>
+							</c:if>
+							<c:if test="${to.curPage!=idx}">
+								<li>
+									<a href="listNotice.do?curPage=${idx}">${idx}</a>
+								</li>
+							</c:if>
+						</c:forEach>
+    					<li>
+      						<a href="listNotice.do?curPage=${(to.curPage+1)<to.totalPage ?(to.curPage+1):to.totalPage}" aria-label="Next">
+        						<span aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span>
+      						</a>
+    					</li>
+					</ul>
+				</nav>
 			</div>
 		</div>
 	</div>
+
+
 
 <%-- 
 	<a href="listNotice.do?curPage=${(to.curPage-1) > 0 ? (to.curPage-1) : 1 }">&laquo;</a>

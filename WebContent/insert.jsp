@@ -159,7 +159,7 @@
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="comment">Content:</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" rows="5" id="comment"></textarea>
+								<textarea class="form-control" rows="5" name="content"></textarea>
 							</div>
 						</div>
 
