@@ -1203,8 +1203,8 @@ public class BoardDAO {
 					String category = rs.getString("category");
 					String location = rs.getString("location");
 					int likes = rs.getInt("likes");
-					list.add(
-							new BoardDTO(num, id, title, content, readcnt, writeday, money, category, location, likes));
+					List<AttDTO> attList = attList(num, conn);
+					list.add(new BoardDTO(num, id, title, content, readcnt, writeday, money, category, location, likes, attList, null, 0));
 					if (pstmt != null) {
 						pstmt.close();
 					}

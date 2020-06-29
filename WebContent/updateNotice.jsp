@@ -16,10 +16,10 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <title>당근마켓</title>
 <c:if test="${empty login }">
-<script>alert('관리자 수정이 가능합니다. 게시물로 이동합니다.'); location.href='/ProjectBoard/readNotice.do?num=${dto.num}'; </script>
+<script>alert('관리자만 수정이 가능합니다. 게시물로 이동합니다.'); location.href='/ProjectBoard/readNotice.do?num=${dto.num}'; </script>
 </c:if>
 <c:if test="${login.id ne 'admin' }">
-<script>alert('관리만 수정이 가능합니다. 게시물로 이동합니다.'); location.href='/ProjectBoard/readNotice.do?num=${dto.num}'; </script>
+<script>alert('관리자만 수정이 가능합니다. 게시물로 이동합니다.'); location.href='/ProjectBoard/readNotice.do?num=${dto.num}'; </script>
 </c:if>
 
 <script type="text/javascript">

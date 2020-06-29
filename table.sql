@@ -1,4 +1,8 @@
-
+select * from (
+select * from (
+select rownum rnum,num,id,title,writeday,money,category,location,readcnt,likes from (
+select * from board where writeday>sysdate-3 and visible = 1 order by likes desc, readcnt desc
+)) where rnum<18)where rnum>=1 and rnum<=10 ";
 create table member(
 id varchar2(21) primary key,
 pw varchar2(21) not null,
@@ -12,7 +16,7 @@ joinday date default sysdate
 );
 
 alter table member add joinday date default sysdate
-
+select * from board
 create table memberCopy(
 id varchar2(21) primary key,
 pw varchar2(21) not null,

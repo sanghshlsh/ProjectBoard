@@ -89,7 +89,7 @@
 			<div class="panel-heading">
 				<h3 class="panel-heading"><span class="glyphicon glyphicon-heart"></span>&nbsp;찜목록</h3>			
 			</div>
-			<div class="panel-body">
+			<div class="panel-body"  style="min-height: 912px;">
 				<div class="row">
 					<c:forEach items="${list}" var="dto">
 					<div class="col-md-3 col-xs-6">
@@ -114,8 +114,39 @@
 					</c:forEach>
 				</div>
 			</div>
+			<div class="panel-heading">
+				<h3 class="panel-heading"><span class="glyphicon glyphicon-option-vertical"></span>&nbsp;내 판매 목록</h3>			
+			</div>
+			<div class="panel-body"  style="min-height: 912px;">
+				<div class="row">
+					<c:forEach items="${list2}" var="dto" >
+					<div class="col-md-3 col-xs-6">
+					<div class="thumbnail">
+						<a href="read.do?num=${dto.num }">
+							<c:if test="${not empty dto.attList }">
+								<img style="width:100%; height: 200px;" src="${dto.attList[0].attPath}" >
+							</c:if>
+							<c:if test="${empty dto.attList }">
+								<img style="width:100%; height: 200px;;"src="images/jumbotronBackground.jpg">
+							</c:if>
+							<div class="caption">
+								<h3><a href="read.do?num=${dto.num }">${dto.title}</a></h3>
+								<h3><small>${dto.location}</small>&nbsp;&nbsp;<small>${dto.category}</small></h3>
+								<p style="color: gold;">${dto.money}원</p>
+								<hr>
+								<p>조회수 ${dto.readcnt} &nbsp;&nbsp;&nbsp; 찜 ${dto.likes} &nbsp;&nbsp;&nbsp; 댓글 ${dto.replycnt}</p>
+							</div>
+						</a>	
+					</div>
+					</div>
+					</c:forEach>
+				</div>
+			</div>
 		</div>
 	</div>
+	
+	
+	
 	
 	
 	

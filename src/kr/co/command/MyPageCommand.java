@@ -24,9 +24,11 @@ public class MyPageCommand implements Command {
 		LoginDTO dto = (LoginDTO) session.getAttribute("login");
 		String id = dto.getId();
 		BoardDAO dao = new BoardDAO();
-		List<BoardDTO> list =  dao.likeList(id);
-		
+		List<BoardDTO> list = dao.likeList(id);
+		List<BoardDTO> list2 = dao.selectList(id);
 		request.setAttribute("list", list);
+		request.setAttribute("list2", list2);
+		
 		
 		
 		return new CommandAction(false, "myPage.jsp");

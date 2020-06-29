@@ -15,7 +15,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <title>당근마켓</title>
-
+<style type="text/css">
+	footer {
+		margin-top: 495px;
+	}
+</style>
 <c:if test="${empty login }">
 <script>alert('관리자만 삭제가 가능합니다. 게시물로 이동합니다.'); location.href='/ProjectBoard/readnotice.do?num=${num}'; </script>
 </c:if>

@@ -117,10 +117,10 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="Money">금액</label>
+							<label class="control-label col-sm-2" for="money">금액</label>
 							<div class="col-sm-10">
-								<input type="number" class="form-control" id="Money"
-									placeholder="Enter Money" name="Money">
+								<input type="number" class="form-control" id="money"
+									placeholder="Enter Money" name="money">
 							</div>
 						</div>
 						<div class="form-group">

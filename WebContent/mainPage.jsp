@@ -102,7 +102,7 @@
 				<a href="listnotice.do" class="listColor">공지사항</a>
 			</h3>
 			</div>
-			<div class="panel-body">
+			<div class="panel-body" style="min-height: 272px;">
 				<table class="table">
 				<thead>
 					<tr>
@@ -140,7 +140,7 @@
 					<a href="hotsalelist.do" class="listColor">인기 매물 게시판</a>
 				</h3>
 			</div>
-			<div class="panel-body">
+			<div class="panel-body" style="min-height: 912px;">
 				<div class="row">
 					<c:forEach items="${hList}" var="dto">
 					<div class="col-md-3 col-xs-6">
@@ -178,7 +178,7 @@
 					<a href="list.do" class="listColor">일반 매물 게시판</a>
 				</h3>
 			</div>
-			<div class="panel-body">
+			<div class="panel-body" style="min-height: 912px;">
 				<div class="row">
 					<c:forEach items="${list}" var="dto">
 					<div class="col-md-3 col-xs-6">
