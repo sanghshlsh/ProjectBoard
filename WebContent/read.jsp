@@ -10,13 +10,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/codingBooster.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <title>중고거래 물품</title>
 </head>
-<body >
+<body>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -66,20 +69,21 @@
 
 
 
-<div class="container">
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h3 class="panel-heading"><span class="glyphicon glyphicon-sunglasses"></span>
-			&nbsp;글자세히보기</h3>
+	<div class="container">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-heading">
+					<span class="glyphicon glyphicon-sunglasses"></span> &nbsp;글자세히보기
+				</h3>
+			</div>
 		</div>
-</div>
 	</div>
-	
 
 
 
-<!-- insert -->
-	<div class="container "align="center">
+
+	<!-- insert -->
+	<div class="container " align="center">
 		<div class="row">
 			<div class="col-md-12"></div>
 		</div>
@@ -141,12 +145,16 @@
 							</div>
 							<div class="list-group-item">
 								<h4 class="list-group-item-heading">
-									<c:if test="${check eq 0}"><span class="glyphicon glyphicon-heart-empty"></span></c:if>
+									<c:if test="${check eq 0}">
+										<span class="glyphicon glyphicon-heart-empty"></span>
+									</c:if>
 									<c:if test="${check eq 1}">
-										<a href="like.do?num=${dto.num }"><span class="glyphicon glyphicon-heart-empty"></span></a>
+										<a href="like.do?num=${dto.num }"><span
+											class="glyphicon glyphicon-heart-empty"></span></a>
 									</c:if>
 									<c:if test="${check eq 2}">
-										<a href="deletelike.do?num=${dto.num }"><span class="glyphicon glyphicon-heart"></span></a>
+										<a href="deletelike.do?num=${dto.num }"><span
+											class="glyphicon glyphicon-heart"></span></a>
 									</c:if>
 									${dto.likes}
 
@@ -163,21 +171,21 @@
 
 								</h4>
 
-<!-- reply -->
+								<!-- reply -->
 
-                             <div align="right" >
-								<c:if test="${dto.id eq login.id }">
-                             <div class="btn btn-primary">
-								<a href="updateui.do?num=${dto.num}">수정</a>
-                             </div>
-                             <div class="btn btn-danger">
-									<a href="deleteui.do?num=${dto.num}&id=${dto.id}">삭제</a>
-									</div>
+								<div align="right">
+									<c:if test="${dto.id eq login.id }">
+										<div class="btn btn-primary">
+											<a href="updateui.do?num=${dto.num}">수정</a>
+										</div>
+										<div class="btn btn-danger">
+											<a href="deleteui.do?num=${dto.num}&id=${dto.id}">삭제</a>
+										</div>
+									</c:if>
 									<div class="btn btn-warning">
-									<a href="list.do">목록</a>
+										<a href="list.do">목록</a>
 									</div>
-								</c:if>
-                             </div>
+								</div>
 							</div>
 
 
@@ -198,17 +206,50 @@
 													end="${rdto.repIndent}">
    &nbsp;&nbsp; <span class="glyphicon glyphicon-share-alt"></span>
 
-												
+
 
 												</c:forEach> ${rdto.content}</td>
 											<td><c:if test="${not empty login }">
-													<a href="replyui.do?repNum=${rdto.repNum}&num=${rdto.num}">댓글</a>
+													<button onclick="reply${rdto.repNum}()">댓글</button>
+													<script>
+			function reply${rdto.repNum}() {
+			  document.getElementById("reply").innerHTML = 
+				  "<div class='row'>"+
+				  "<div class='ui-group-buttons'>"+
+				  "<div class='panel panel-default widget'>"+
+				  "<div class='panel-heading'>"
+					+"<span class='glyphicon glyphicon-comment'></span>"
+					+"<h3 class='panel-title'>대댓글</h3>"+
+				  "<form action='rereply.do' method='post'>"+
+				  "<textarea name='content' class='form-control' rows='3' placeholder='Write in your wall'></textarea>"+
+				"<input type='submit' value='댓글입력'>"+
+				  "<input type='hidden' value='${login.id}' name='id'>"+
+				  "<input type='hidden' value='${rdto.repNum}' name='repNum'>"+
+				  "<input type='hidden' name='num' value='${rdto.num}'></form></div></div></div></div>";
+			}
+</script>
 												</c:if></td>
 											<td><c:if test="${login.id eq rdto.id }">
-													<a href="reupdateui.do?repNum=${ rdto.repNum}">수정</a>
+													<button onclick="reUpdate${rdto.repNum}()">수정</button>
+													<script>
+			function reUpdate${rdto.repNum}() {
+  				document.getElementById("reply").innerHTML = 
+  				  "<div class='row'>"+
+				  "<div class='ui-group-buttons'>"+
+				  "<div class='panel panel-default widget'>"+
+				  "<div class='panel-heading'>"
+					+"<span class='glyphicon glyphicon-comment'></span>"
+					+"<h3 class='panel-title'>수정</h3>"+
+				  "<form action='reupdate.do' method='post'>"
+  				+"<textarea name='content' class='form-control' rows='3'>${rdto.content}</textarea>"
+  				+"<input type='submit' value='수정'><input type='hidden' value='${rdto.repNum}' name='repNum'>"
+  				+"<input type='hidden' name='num' value='${rdto.num}'></form></div></div></div></div>";
+			}
+</script>
 												</c:if></td>
 											<td><c:if test="${login.id eq rdto.id }">
-													<a href="redelete.do?repNum=${rdto.repNum}&num=${rdto.num}">삭제</a>
+													<button
+														onclick="location.href='redelete.do?repNum=${rdto.repNum}&num=${rdto.num}'">삭제</button>
 												</c:if></td>
 
 										</tr>
@@ -217,6 +258,7 @@
 								</tbody>
 							</table>
 
+							<div class="container" id="reply"></div>
 
 							<div class="container">
 								<div class="row">
@@ -248,20 +290,20 @@
 													</c:if>
 												</form>
 											</div>
-											</div>
-
 										</div>
 
 									</div>
-								</div>
 
+								</div>
 							</div>
+
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	
+	</div>
+
 
 
 
