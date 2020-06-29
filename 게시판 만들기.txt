@@ -1,0 +1,59 @@
+일반적인 통신 방법:
+화면 [[[[전체]]]]에 대해 요청하고 화면 [[[[전체]]]]에 대해 응답힌다.
+
+ajax:
+화면 [[[[일부]]]]에 대해 [[[[요청]]]]하고 화면 일부에 대해 응답한다.
+ALTER TABLE board RENAME COLUMN writeady TO writeday;
+create table board(
+	num number(4) primary key, 번호
+	writer varchar2(21) not null, 작성자
+	title varchar2(60) not null,   제목
+	content varchar2(1000),   내용
+	writeday date default sysdate, 작성일
+	readcnt number(4) default 0, 조회수
+	repRoot number(4), 답글 
+	repStep number(4), 답글의 답글
+	repIndent number(4) 들여쓰기
+);
+
+select * from board order by repRoot desc, repStep asc
+
+repRoot컬럼의 목적: 원글과 답글을 붙어있게 하려고
+repStep컬럼의 목적: 원글과 답글들간의 정렬 순서를 지정하기 위해서
+repIndent컬럼의 목적: 답글들을 들여쓰기 하게 하려고
+
+답글의 repRoot값은 원글의 repRoot값을 넘겨받는다.
+
+답글의 repStep: 원글의 repStep + 1
+		repRoot값이 같고 원글의 repStep보다 큰
+		기존 답글에 repStep값을 1증가시킴
+
+답글의 repIndent: 원글의 repIndent + 1
+1 1 1
+1 2 2
+1 3 3
+1 4 1
+
+1 0 0
+1 1 1
+1 2 2
+1 3 2
+
+	repnum	reproot	repstep	repindent orgnum
+1	1	1	0	0	0
+2	2	2	0	0	0
+2-1	4	2	1	1	2
+2-1-1	7	2	2	2	4
+2-1-1-1	8	2	3	3	7
+2-2	9	2		1	2					
+3	3	3	0	0	0
+
+orgnum 없으면 orgnum에 해당하는 repnum을 가진애의 step을 받아와서 +1
+orgnum이 있으면 동일 orgnum들을 가진놈들 max(repstep)+1
+org
+int i = 1; i < repindent 
+org = getrepnum(org)
+
+org
+orgnum max(repstep)인 애의  repnum 리턴
+->repnum 이 orgnum인 max(repstep)인 repnum리턴
