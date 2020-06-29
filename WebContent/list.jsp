@@ -216,7 +216,7 @@
 										test="${not empty dto.attList }">
 										<img width="50px" height="50px"
 											src="${dto.attList[0].attPath}">
-									</c:if> ${dto.title}</a></td>
+									</c:if> ${dto.title}</a>[${dto.replycnt }]</td>
 							<td width="100px">${dto.writeday}</td>
 							<td width="20px">${dto.readcnt}</td>
 							<td width="20px">${dto.likes}</td>

@@ -355,7 +355,7 @@ public class BoardDAO {
 			pstmt.setInt(2, num);
 			pstmt.setString(3, uploadPath + File.separator + fileName);
 			pstmt.executeUpdate();
-		
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -378,7 +378,6 @@ public class BoardDAO {
 			pstmt = conn.prepareStatement(sql);
 
 			int repnum = createRepNum(conn);
-
 			ReplyDTO orgDTO = updateui(orgnum);
 
 			pstmt.setInt(1, repnum);
@@ -387,7 +386,7 @@ public class BoardDAO {
 			pstmt.setString(4, replyDTO.getContent());
 			pstmt.setDate(5, replyDTO.getWriteday());
 			pstmt.setInt(6, orgDTO.getRepRoot());
-			int repstep = repstep2(conn, orgDTO) + 1;
+			int repstep = repstep2(conn, orgDTO, orgnum) + 1;
 			stepPlus1(conn, orgDTO, repstep);
 			pstmt.setInt(7, repstep);
 
@@ -664,7 +663,7 @@ public class BoardDAO {
 				String nickname = getnickname(id, conn);
 				List<AttDTO> attList = attnoticelist(num, conn);
 				list.add(new BoardDTO(num, id, title, null, readcnt, writeday, money, category, location, 0, attList,
-						nickname,0));
+						nickname, 0));
 
 			}
 		} catch (Exception e) {
@@ -710,7 +709,7 @@ public class BoardDAO {
 				int readcnt = rs.getInt("readcnt");
 				String nickname = getnickname(id, conn);
 				List<AttDTO> attList = attnoticelist(num, conn);
-				list.add(new BoardDTO(num, id, title, null, readcnt, writeday, 0, null, null, 0, attList, nickname,0));
+				list.add(new BoardDTO(num, id, title, null, readcnt, writeday, 0, null, null, 0, attList, nickname, 0));
 			}
 			to.setList(list);
 		} catch (Exception e) {
@@ -820,7 +819,7 @@ public class BoardDAO {
 				int replycnt = countReply(num, conn);
 
 				list.add(new BoardDTO(num, id, title, null, readcnt, writeday, money, category, location, likes,
-						attList, nickname,replycnt));
+						attList, nickname, replycnt));
 			}
 
 			to.setList(list);
@@ -946,23 +945,26 @@ public class BoardDAO {
 	}
 
 //중요repstep2
-	private int repstep2(Connection conn, ReplyDTO orgDTO) {
-		int repstep = 0;
+	private int repstep2(Connection conn, ReplyDTO orgDTO, int orgNum) {
+		int repstep = orgDTO.getRepStep();
 		PreparedStatement pstmt = null;
 
-		String sql = "select repstep from reply where orgnum = ?";
+		String sql = "select * from reply where orgnum = ? order by repstep desc";
 		ResultSet rs = null;
 
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, orgDTO.getRepNum());
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				int step = rs.getInt(1);
-				repstep = step;
+			int repIndent = getRepIndent(conn, orgDTO.getRepRoot());
+			if (repIndent > 0) {
+				for (int i = 1; i < repIndent; i++) {
+					orgNum = getOrgNum(conn, orgNum);
+				}
 			}
-			if (repstep == 0) {
-				repstep = orgDTO.getRepStep();
+			pstmt.setInt(1, orgNum);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				repstep = rs.getInt("repstep");
+
 			}
 
 		} catch (Exception e) {
@@ -972,6 +974,49 @@ public class BoardDAO {
 		}
 
 		return repstep;
+	}
+
+	private int getOrgNum(Connection conn, int orgNum) {
+
+		PreparedStatement pstmt = null;
+		String sql = "select * from reply where orgnum = ? order by repstep desc";
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, orgNum);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				orgNum = rs.getInt("renum");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(null, pstmt, rs);
+		}
+		return orgNum;
+	}
+
+	private int getRepIndent(Connection conn, int repRoot) {
+		int repIndent = 0;
+		PreparedStatement pstmt = null;
+		String sql = "select max(repIndent) from reply where reproot = ?";
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, repRoot);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				repIndent = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(null, pstmt, rs);
+		}
+
+		return repIndent;
 	}
 
 	private void insertMemberCopy(Connection conn, MemberDTO memberDTO) {
@@ -1129,7 +1174,7 @@ public class BoardDAO {
 		}
 
 	}
-	
+
 	private void likeListDelete(Connection conn, String id) {
 		PreparedStatement pstmt = null;
 		String sql = "delete from likelist where id = ?";
@@ -1144,7 +1189,7 @@ public class BoardDAO {
 		}
 
 	}
-	
+
 	private void trashMemberReply(Connection conn, String id) {
 		PreparedStatement pstmt = null;
 		String sql = "update reply set id = ? where id = ?";
@@ -1270,7 +1315,6 @@ public class BoardDAO {
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
 
-
 			if (rs.next()) {
 				String id = rs.getString("id");
 				String title = rs.getString("title");
@@ -1285,7 +1329,7 @@ public class BoardDAO {
 				String nickname = getnickname(id, conn);
 				int replycnt = countReply(num, conn);
 				dto = new BoardDTO(num, id, title, content, readcnt, writeday, money, category, location, likes,
-						attList, nickname,replycnt);
+						attList, nickname, replycnt);
 			}
 			isOk = true;
 		} catch (Exception e) {
@@ -1512,9 +1556,6 @@ public class BoardDAO {
 
 	}
 
-
-	
-
 	private void attachfilenotice(Connection conn, String attPath, int num) {
 		PreparedStatement pstmt = null;
 		String sql = "insert into attfilenotice (attNum, num, attPath) values (?, ?, ?)";
@@ -1534,7 +1575,6 @@ public class BoardDAO {
 			closeAll(null, pstmt, null);
 		}
 
-		
 	}
 
 	private int createAttNoticeNum(Connection conn) {
@@ -1638,7 +1678,7 @@ public class BoardDAO {
 				String nickname = getnickname(id, conn);
 				int replycnt = countReply(num, conn);
 				list.add(new BoardDTO(num, id, title, content, readcnt, writeday, money, category, location, likes,
-						attList, nickname,replycnt));
+						attList, nickname, replycnt));
 			}
 
 		} catch (Exception e) {
@@ -1650,57 +1690,57 @@ public class BoardDAO {
 		return list;
 	}
 
-
-	//  hotsalelist page  페이징처리
+	// hotsalelist page 페이징처리
 	public PageDTO page(int curPage) {
 		PageDTO to = new PageDTO(curPage);
-			List<BoardDTO> list = new ArrayList<BoardDTO>();
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-			String sql = "select*from (select * from (select rownum rnum,num,id,title,writeday,money,category,location,readcnt,likes from (select*from board where writeday>sysdate-3 and visible = 1 order by likes Desc, readcnt desc)) where rnum<18)where rnum>=? and rnum<=? ";
-			ResultSet rs = null;
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "select*from (select * from (select rownum rnum,num,id,title,writeday,money,category,location,readcnt,likes from (select*from board where writeday>sysdate-3 and visible = 1 order by likes Desc, readcnt desc)) where rnum<18)where rnum>=? and rnum<=? ";
+		ResultSet rs = null;
 
-			try {
-				conn = dataFactory.getConnection();
+		try {
+			conn = dataFactory.getConnection();
 
-				int amount = gethotsaleAmount(conn);
-				to.setAmount(amount);
+			int amount = gethotsaleAmount(conn);
+			to.setAmount(amount);
 
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, to.getStartNum());
-				pstmt.setInt(2, to.getEndNum());
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, to.getStartNum());
+			pstmt.setInt(2, to.getEndNum());
 
-				rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
-				while (rs.next()) {
-					int num = rs.getInt("num");
-					String id = rs.getString("id");
-					String title = rs.getString("title");
+			while (rs.next()) {
+				int num = rs.getInt("num");
+				String id = rs.getString("id");
+				String title = rs.getString("title");
 
-					Date writeday = rs.getDate("writeday");
-					int money = rs.getInt("money");
-					String category = rs.getString("category");
-					String location = rs.getString("location");
-					int readcnt = rs.getInt("readcnt");
-					int likes = rs.getInt("likes");
-					String nickname = getnickname(id, conn);
-					List<AttDTO> attList = attList(num, conn);
-					int replycnt = countReply(num, conn);
-					BoardDTO dto = new BoardDTO(num, id, title, null, readcnt, writeday, money, category, location, likes, attList, nickname, replycnt);
+				Date writeday = rs.getDate("writeday");
+				int money = rs.getInt("money");
+				String category = rs.getString("category");
+				String location = rs.getString("location");
+				int readcnt = rs.getInt("readcnt");
+				int likes = rs.getInt("likes");
+				String nickname = getnickname(id, conn);
+				List<AttDTO> attList = attList(num, conn);
+				int replycnt = countReply(num, conn);
+				BoardDTO dto = new BoardDTO(num, id, title, null, readcnt, writeday, money, category, location, likes,
+						attList, nickname, replycnt);
 
-					list.add(dto);
-				}
-				to.setList(list);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				closeAll(conn, pstmt, rs);
+				list.add(dto);
 			}
+			to.setList(list);
 
-			return to;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, rs);
 		}
-		
+
+		return to;
+	}
+
 	private int countReply(int num, Connection conn) {
 		int replycnt = 0;
 		PreparedStatement pstmt = null;
@@ -1856,7 +1896,7 @@ public class BoardDAO {
 		try {
 			conn = dataFactory.getConnection();
 			conn.setAutoCommit(false);
-			deleteReply(conn,num);
+			deleteReply(conn, num);
 			deleteLike(conn, num);
 			deleteFile(conn, num);
 			pstmt = conn.prepareStatement(sql);
@@ -1879,6 +1919,7 @@ public class BoardDAO {
 		}
 
 	}
+
 //글삭제 선행조건 댓글삭제
 	private void deleteReply(Connection conn, int num) {
 		PreparedStatement pstmt = null;
@@ -1893,7 +1934,7 @@ public class BoardDAO {
 		} finally {
 			closeAll(null, pstmt, null);
 		}
-}
+	}
 
 	// 글삭제 선행조건-첨부파일삭제
 	private void deleteFile(Connection conn, int num) {
@@ -1928,8 +1969,6 @@ public class BoardDAO {
 		}
 
 	}
-
-
 
 	// hotsalelist page amount
 
@@ -1983,7 +2022,8 @@ public class BoardDAO {
 				String nickname = getnickname(id, conn);
 				List<AttDTO> attList = attList(num, conn);
 				int replycnt = countReply(num, conn);
-				BoardDTO dto = new BoardDTO(num, id, title, null, readcnt, writeday, money, category, location, likes, attList, nickname,replycnt);
+				BoardDTO dto = new BoardDTO(num, id, title, null, readcnt, writeday, money, category, location, likes,
+						attList, nickname, replycnt);
 				list.add(dto);
 			}
 		} catch (Exception e) {
@@ -2010,8 +2050,6 @@ public class BoardDAO {
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
 
-		
-
 			if (rs.next()) {
 				String id = rs.getString("id");
 				String title = rs.getString("title");
@@ -2019,9 +2057,8 @@ public class BoardDAO {
 				int readcnt = rs.getInt("readcnt");
 				Date writeday = rs.getDate("writeday");
 				String nickname = getnickname(id, conn);
-				List<AttDTO> attList = attnoticelist(num,conn);
-				dto = new BoardDTO(num, id, title, content, readcnt, writeday, 0, null, null, 0,
-						attList, nickname,0);
+				List<AttDTO> attList = attnoticelist(num, conn);
+				dto = new BoardDTO(num, id, title, content, readcnt, writeday, 0, null, null, 0, attList, nickname, 0);
 			}
 			isOk = true;
 		} catch (Exception e) {
@@ -2039,7 +2076,7 @@ public class BoardDAO {
 		}
 		return dto;
 	}
-	
+
 	private List<AttDTO> attnoticelist(int num, Connection conn) {
 		List<AttDTO> list = new ArrayList<AttDTO>();
 
@@ -2106,8 +2143,9 @@ public class BoardDAO {
 			}
 			closeAll(conn, pstmt, null);
 		}
-		
+
 	}
+
 //공지삭제 선행작업-첨부파일삭제
 	private void deleteNoticeFile(Connection conn, int num) {
 		PreparedStatement pstmt = null;
@@ -2123,8 +2161,8 @@ public class BoardDAO {
 			closeAll(null, pstmt, null);
 		}
 
-		
 	}
+
 //공지수정
 	public void updateNotice(BoardDTO boardDTO, List<Integer> delList) {
 		Connection conn = null;
@@ -2161,7 +2199,7 @@ public class BoardDAO {
 			}
 			closeAll(conn, pstmt, null);
 		}
-		
+
 	}
 
 	private void deletefilenotice(Connection conn, Integer attNum) {
@@ -2176,7 +2214,7 @@ public class BoardDAO {
 		} finally {
 			closeAll(null, pstmt, null);
 		}
-		
+
 	}
 
 }

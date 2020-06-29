@@ -1,4 +1,3 @@
-
 create table member(
 id varchar2(21) primary key,
 pw varchar2(21) not null,
